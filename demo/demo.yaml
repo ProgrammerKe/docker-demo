@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo
+  name: demo
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "8998"
+        prometheus.io/scheme: http
+        prometheus.io/scrape: "true"
+      labels:
+        app: demo
+    spec:
+      containers:
+      - image: harbor.edu.cn/library/demo:{VERSION}
+        name: demo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo
+  labels:
+    app: demo
+spec:
+  type: NodePort
+  selector:
+    app: demo
+  ports:
+  - name: tcp
+    protocol: TCP
+    port: 8998
+    targetPort: 8998
