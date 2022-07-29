@@ -21,7 +21,7 @@ spec:
         app: demo
     spec:
       containers:
-      - image: harbor.edu.cn/library/demo:{VERSION}
+      - image: harbor.edu.cn/nju18/demo:{VERSION}
         name: demo
 ---
 apiVersion: v1
